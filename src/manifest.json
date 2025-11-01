@@ -59,21 +59,21 @@
     "start-crop-mode": {
       "suggested_key": {
         "default": "Alt+Shift+C",
-        "mac": "Option+Shift+C"
+        "mac": "Alt+Shift+C"
       },
       "description": "Start crop mode (Alt+Drag to select area)"
     },
     "full-page-screenshot": {
       "suggested_key": {
         "default": "Alt+Shift+F",
-        "mac": "Option+Shift+F"
+        "mac": "Alt+Shift+F"
       },
       "description": "Capture full page screenshot"
     },
     "export-batch": {
       "suggested_key": {
         "default": "Alt+Shift+E",
-        "mac": "Option+Shift+E"
+        "mac": "Alt+Shift+E"
       },
       "description": "Export batch of crops to Excel"
     }

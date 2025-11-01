@@ -1,4 +1,4 @@
 export const defaults = {
-  openInTab: true,
-  download: false,
+  openInTab: false,
+  download: true,
 };

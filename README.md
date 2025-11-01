@@ -41,8 +41,20 @@ Based on [Chrome Extension Boilerplate with React 17 and Webpack 5](https://gith
 
 ## To use
 
-- Hold the `Option/Alt` key and drag the mouse to create partial screenshots.
-- Click the extension icon to create full-page screenshots.
+### Quick Start:
+1. **IMPORTANT:** After loading the extension, **refresh any open tabs** where you want to use it (`Cmd+R`)
+2. **For Partial Screenshots:** Hold **Option/Alt** key and drag your mouse to select an area
+3. **For Full Screenshots:** Click the extension icon in your toolbar
+
+### Keyboard Shortcuts:
+- `Alt+Shift+C` - Start crop mode
+- `Alt+Shift+F` - Capture full page
+- `Alt+Shift+E` - Export to Excel
+
+### ⚠️ Troubleshooting
+If the crop feature isn't working, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed help.
+
+**Most common fix:** Refresh the page after loading the extension!
 
 ---
 
