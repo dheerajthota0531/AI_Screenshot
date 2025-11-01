@@ -66,8 +66,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       getImageDimensions(screenshotUrl).then(
         (imageDimensions: ImageDimension) => {
           let scale = imageDimensions.w / windowSize.width;
-          let x = Math.floor(rect.x * scale);
-          let y = Math.floor(rect.y * scale);
+          // Account for scroll position when calculating crop coordinates
+          let scrollX = (windowSize as any).scrollX || 0;
+          let scrollY = (windowSize as any).scrollY || 0;
+          let x = Math.floor((rect.x + scrollX) * scale);
+          let y = Math.floor((rect.y + scrollY) * scale);
           let width = Math.floor(rect.width * scale);
           let height = Math.floor(rect.height * scale);
           imageClipper(screenshotUrl, () => {
