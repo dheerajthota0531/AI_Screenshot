@@ -23,12 +23,12 @@ const getImageDimensions = (file: string): Promise<ImageDimension> => {
   });
 };
 
-chrome.browserAction.setTitle({
+chrome.action.setTitle({
   title:
     'Hold the Option/Alt key and drag the mouse to create partial screenshots.\nClick the icon to create full-page screenshots.',
 });
 
-chrome.browserAction.onClicked.addListener(function () {
+chrome.action.onClicked.addListener(function () {
   chrome.tabs.captureVisibleTab(function (screenshotUrl) {
     if (!screenshotUrl) {
       return;

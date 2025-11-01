@@ -1,12 +1,12 @@
 # Screenshot Browser Extension
 
-[<img src="src/assets/img/icon-128.png" height="40"/>](https://chrome.google.com/webstore/detail/screenshot-extension/hmkbkbpdnembpeadgpcmjekihjmckdjh)
+[<img src="src/assets/img/icon-128.png" height="40"/>](https://github.com/dheerajthota0531/screenshot-extension)
 
-![package.json version](https://img.shields.io/github/package-json/v/lxieyang/screenshot-extension/master)
-[![MIT License](https://img.shields.io/github/license/lxieyang/screenshot-extension)](LICENSE)
+![package.json version](https://img.shields.io/github/package-json/v/dheerajthota0531/screenshot-extension/master)
+[![MIT License](https://img.shields.io/github/license/dheerajthota0531/screenshot-extension)](LICENSE)
 
-![last commit](https://img.shields.io/github/last-commit/lxieyang/screenshot-extension/master)
-![commit freq](https://img.shields.io/github/commit-activity/w/lxieyang/screenshot-extension)
+![last commit](https://img.shields.io/github/last-commit/dheerajthota0531/screenshot-extension/master)
+![commit freq](https://img.shields.io/github/commit-activity/w/dheerajthota0531/screenshot-extension)
 
 <!--
 [![users](https://img.shields.io/chrome-web-store/users/hmkbkbpdnembpeadgpcmjekihjmckdjh)](https://chrome.google.com/webstore/detail/screenshot-extension/hmkbkbpdnembpeadgpcmjekihjmckdjh)
@@ -26,7 +26,7 @@ Based on [Chrome Extension Boilerplate with React 17 and Webpack 5](https://gith
 
 ### From Github Releases
 
-1. Download the latest `build.zip` from the [Release](https://github.com/lxieyang/screenshot-extension/releases) page. Or click [here](https://github.com/lxieyang/screenshot-extension/releases/download/v1.0.0/build.zip).
+1. Download the latest `build.zip` from the [Release](https://github.com/dheerajthota0531/screenshot-extension/releases) page.
 2. Unzip
 3. Go to `chrome://extensions/` (or `edge://extensions/` if you're using MS Edge) and enable `Developer mode`.
 4. Click `Load Unpacked`, then select the unzipped folder (which contains a file called `manifest.json`).
@@ -46,4 +46,5 @@ Based on [Chrome Extension Boilerplate with React 17 and Webpack 5](https://gith
 
 ---
 
-Michael Xieyang Liu | [Website](https://lxieyang.github.io)
+Based on the original work by [Michael Xieyang Liu](https://lxieyang.github.io)  
+Forked and maintained by [dheerajthota0531](https://github.com/dheerajthota0531)
