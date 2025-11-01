@@ -216,11 +216,53 @@ const Options: React.FC = () => {
         </div>
       </div>
 
+      <div className="SettingsSection">
+        <h3>Keyboard Shortcuts</h3>
+        <div style={{ backgroundColor: '#f9fafb', padding: '12px', borderRadius: '4px', fontSize: '12px' }}>
+          <p style={{ marginTop: '0px', marginBottom: '8px' }}>
+            <strong>To customize shortcuts:</strong>
+          </p>
+          <ol style={{ marginTop: '0px', marginBottom: '8px', paddingLeft: '20px' }}>
+            <li>Go to <code style={{ backgroundColor: '#ffffff', padding: '2px 4px', borderRadius: '2px' }}>chrome://extensions/shortcuts</code></li>
+            <li>Find "Screenshot Extension (Open Source)"</li>
+            <li>Click on any shortcut to modify it</li>
+          </ol>
+
+          <table style={{ width: '100%', marginTop: '12px', fontSize: '11px', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                <th style={{ textAlign: 'left', padding: '6px', fontWeight: '600' }}>Action</th>
+                <th style={{ textAlign: 'left', padding: '6px', fontWeight: '600' }}>Default Shortcut (Windows/Linux)</th>
+                <th style={{ textAlign: 'left', padding: '6px', fontWeight: '600' }}>Mac</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
+                <td style={{ padding: '6px' }}>Start crop mode</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Alt+Shift+C</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Option+Shift+C</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
+                <td style={{ padding: '6px' }}>Full page screenshot</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Alt+Shift+F</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Option+Shift+F</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '6px' }}>Export batch to Excel</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Alt+Shift+E</td>
+                <td style={{ padding: '6px', fontFamily: 'monospace' }}>Option+Shift+E</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div style={{ marginTop: '24px', padding: '12px', backgroundColor: '#f3f4f6', borderRadius: '4px', fontSize: '12px', color: '#666' }}>
         <strong>How to use:</strong>
         <ul style={{ marginTop: '8px', marginBottom: '0px', paddingLeft: '20px' }}>
           <li>Hold Alt/Option key and drag to select an area for crop</li>
           <li>Click the extension icon for full-page screenshots</li>
+          <li>Or use keyboard shortcuts (customizable at chrome://extensions/shortcuts)</li>
           <li>Crops are automatically stored for batch export</li>
           <li>Use batch export to combine multiple crops into one Excel file</li>
         </ul>
