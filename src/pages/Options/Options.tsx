@@ -42,7 +42,6 @@ const Options: React.FC = () => {
           id="openInTab"
           name="openInTab"
           checked={openInTab}
-          disabled={!download}
           onChange={() => openInNewTabClickedHandler(!openInTab)}
         />
         <label htmlFor="openInTab">Open screenshots in a new tab</label>
@@ -54,7 +53,6 @@ const Options: React.FC = () => {
           id="download"
           name="download"
           checked={download}
-          disabled={!openInTab}
           onChange={() => downloadClickedHandler(!download)}
         />
         <label htmlFor="download">Directly download screenshots</label>
