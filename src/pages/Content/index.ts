@@ -102,7 +102,12 @@ window.addEventListener('mouseup', (event) => {
     width: Math.abs(startingX - currX),
     height: Math.abs(startingY - currY),
   };
-  const windowSize = { width: window.innerWidth, height: window.innerHeight };
+  const windowSize = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    scrollX: window.scrollX || document.documentElement.scrollLeft,
+    scrollY: window.scrollY || document.documentElement.scrollTop
+  };
 
   resetEverything();
 
