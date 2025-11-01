@@ -19,6 +19,9 @@ const getImageDimensions = (file: string): Promise<ImageDimension> => {
     img.onload = function () {
       resolved({ w: img.width, h: img.height });
     };
+    img.onerror = function () {
+      rejected(new Error('Failed to load image dimensions (CORS/blob URL issue)'));
+    };
     img.src = file;
   });
 };
