@@ -196,3 +196,12 @@ window.addEventListener('keyup', (event) => {
     }
   }
 });
+
+// Listen for messages from background script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'SHOW_NOTIFICATION') {
+    const { message, notificationType } = request;
+    showToast(message, notificationType || 'info');
+    sendResponse({ success: true });
+  }
+});
