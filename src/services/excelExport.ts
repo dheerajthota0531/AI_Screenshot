@@ -93,7 +93,8 @@ export const exportScreenshotToExcel = (
     console.log(`Successfully exported to Excel: ${filename}`);
   } catch (error) {
     console.error('Failed to export screenshot to Excel:', error);
-    throw new Error(`Excel export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    const friendlyMessage = getUserFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage || ERROR_MESSAGES.EXCEL_EXPORT_FAILED);
   }
 };
 
