@@ -121,5 +121,108 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         // User notification would go here in future iterations
       });
     });
+  } else if (request.msg === 'SCREENSHOT_TO_EXCEL') {
+    // Handle single screenshot export to Excel
+    try {
+      const { dataUrl, pageUrl, width, height, x, y, filename, includeMetadata } = request;
+
+      const metadata = {
+        pageUrl,
+        width,
+        height,
+        x,
+        y
+      };
+
+      exportScreenshotToExcel(
+        dataUrl,
+        {
+          includeMetadata,
+          filename: filename || `screenshot_${Date.now()}.xlsx`,
+          timestamp: Date.now()
+        },
+        metadata
+      );
+
+      // Send success response to content script
+      sendResponse({ success: true, message: 'Exported to Excel successfully' });
+      console.log('Screenshot exported to Excel');
+    } catch (error) {
+      console.error('Excel export failed:', error);
+      sendResponse({
+        success: false,
+        message: error instanceof Error ? error.message : 'Failed to export to Excel'
+      });
+    }
+  } else if (request.msg === 'STORE_CROP_FOR_BATCH') {
+    // Store crop for batch export
+    try {
+      const crop: CropData = {
+        dataUrl: request.dataUrl,
+        timestamp: request.timestamp || Date.now(),
+        pageUrl: request.pageUrl,
+        width: request.width,
+        height: request.height,
+        x: request.x,
+        y: request.y
+      };
+
+      batchCrops.push(crop);
+
+      // Also store in chrome storage for persistence
+      chrome.storage.local.set({ batchCrops });
+
+      console.log(`Crop stored for batch export. Total crops: ${batchCrops.length}`);
+      sendResponse({ success: true, cropsCount: batchCrops.length });
+    } catch (error) {
+      console.error('Failed to store crop:', error);
+      sendResponse({
+        success: false,
+        message: error instanceof Error ? error.message : 'Failed to store crop'
+      });
+    }
+  } else if (request.msg === 'BATCH_EXPORT_EXCEL') {
+    // Export all stored crops to Excel
+    try {
+      if (batchCrops.length === 0) {
+        sendResponse({
+          success: false,
+          message: 'No crops to export'
+        });
+        return;
+      }
+
+      const { filename, includeMetadata } = request;
+
+      exportMultipleScreenshots(
+        batchCrops,
+        {
+          includeMetadata,
+          filename: filename || `screenshots_batch_${Date.now()}.xlsx`,
+          timestamp: Date.now()
+        }
+      );
+
+      // Clear batch crops after successful export
+      batchCrops = [];
+      chrome.storage.local.set({ batchCrops: [] });
+
+      console.log('Batch exported to Excel successfully');
+      sendResponse({ success: true, message: `Exported ${batchCrops.length} crops to Excel` });
+    } catch (error) {
+      console.error('Batch export failed:', error);
+      sendResponse({
+        success: false,
+        message: error instanceof Error ? error.message : 'Batch export failed'
+      });
+    }
+  } else if (request.msg === 'GET_BATCH_CROPS_COUNT') {
+    // Get count of stored crops
+    sendResponse({ count: batchCrops.length });
+  } else if (request.msg === 'CLEAR_BATCH_CROPS') {
+    // Clear batch crops
+    batchCrops = [];
+    chrome.storage.local.set({ batchCrops: [] });
+    sendResponse({ success: true, message: 'Batch crops cleared' });
   }
 });
