@@ -70,7 +70,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           let y = Math.floor(rect.y * scale);
           let width = Math.floor(rect.width * scale);
           let height = Math.floor(rect.height * scale);
-          imageClipper(screenshotUrl, function () {
+          imageClipper(screenshotUrl, () => {
             // @ts-ignore
             this.crop(x, y, width, height).toDataURL((dataUrl: string) => {
               chrome.storage.sync.get(['download', 'openInTab'], (result) => {
@@ -105,7 +105,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             });
           });
         }
-      );
+      ).catch((error) => {
+        console.error('Screenshot capture failed:', error);
+        // User notification would go here in future iterations
+      });
     });
   }
 });
