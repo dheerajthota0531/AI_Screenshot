@@ -195,7 +195,8 @@ export const exportMultipleScreenshots = (
     console.log(`Successfully exported ${crops.length} screenshots to Excel: ${filename}`);
   } catch (error) {
     console.error('Failed to export multiple screenshots to Excel:', error);
-    throw new Error(`Batch export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    const friendlyMessage = getUserFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage || ERROR_MESSAGES.EXCEL_EXPORT_FAILED);
   }
 };
 
