@@ -107,7 +107,7 @@ export const exportMultipleScreenshots = (
 ): void => {
   try {
     if (crops.length === 0) {
-      throw new Error('No crops to export');
+      throw new Error(ERROR_MESSAGES.BATCH_EMPTY);
     }
 
     const workbook = XLSX.utils.book_new();
