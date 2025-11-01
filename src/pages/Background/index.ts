@@ -14,6 +14,12 @@ interface ImageDimension {
 
 chrome.storage.sync.set({ openInTab: defaults.openInTab });
 chrome.storage.sync.set({ download: defaults.download });
+chrome.storage.local.set({ batchCrops: [] });
+chrome.storage.sync.set({ includeMetadata: true });
+chrome.storage.sync.set({ defaultExportFormat: 'excel' });
+
+// Initialize batch crops storage
+let batchCrops: CropData[] = [];
 
 const getImageDimensions = (file: string): Promise<ImageDimension> => {
   return new Promise(function (resolved, rejected) {
