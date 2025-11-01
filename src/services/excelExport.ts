@@ -226,6 +226,7 @@ export const exportCanvasToExcel = (
     exportScreenshotToExcel(dataUrl, options, fullMetadata);
   } catch (error) {
     console.error('Failed to convert canvas to Excel:', error);
-    throw new Error(`Canvas conversion failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    const friendlyMessage = getUserFriendlyErrorMessage(error);
+    throw new Error(friendlyMessage || ERROR_MESSAGES.EXCEL_EXPORT_FAILED);
   }
 };
