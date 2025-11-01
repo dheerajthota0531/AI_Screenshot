@@ -2,6 +2,8 @@ import '../../assets/img/icon-34.png';
 import '../../assets/img/icon-128.png';
 import '../../assets/img/cross-32.png';
 import { defaults } from '../../shared/defaults';
+import { exportScreenshotToExcel, exportMultipleScreenshots } from '../../services/excelExport';
+import { CropData } from '../../types/excel';
 // @ts-ignore
 import imageClipper from './image-clipper';
 
