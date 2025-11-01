@@ -119,7 +119,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         }
       ).catch((error) => {
         console.error('Screenshot capture failed:', error);
-        // User notification would go here in future iterations
+        const errorMsg = error instanceof Error ? error.message : ERROR_MESSAGES.SCREENSHOT_CAPTURE_FAILED;
+        console.error('Error details:', errorMsg);
       });
     });
   } else if (request.msg === 'SCREENSHOT_TO_EXCEL') {
