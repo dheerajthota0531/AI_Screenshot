@@ -1,3 +1,57 @@
+/**
+ * Toast notification utility for content script
+ */
+const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+  // Create toast element
+  const toast = document.createElement('div');
+  const toastId = `screenshot-toast-${Date.now()}`;
+  toast.id = toastId;
+
+  // Define styles
+  const typeStyles: Record<string, string> = {
+    success: 'background-color: #10b981; color: white;',
+    error: 'background-color: #ef4444; color: white;',
+    info: 'background-color: #3b82f6; color: white;'
+  };
+
+  toast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999999;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    word-wrap: break-word;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+    ${typeStyles[type]}
+  `;
+
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  // Trigger animation
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 10);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      const element = document.getElementById(toastId);
+      if (element) {
+        element.remove();
+      }
+    }, 300);
+  }, 3000);
+};
+
 const bboxAnchor = document.body.appendChild(document.createElement('div'));
 bboxAnchor.id = 'screenshot-bbox';
 bboxAnchor.style.zIndex = '9999999';
