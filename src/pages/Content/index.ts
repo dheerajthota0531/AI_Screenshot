@@ -1,55 +1,40 @@
 /**
  * Toast notification utility for content script
+ * Uses CSS classes for better styling and animations
  */
-const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info', duration: number = 3000) => {
+  // Ensure container exists
+  let container = document.getElementById('screenshot-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'screenshot-toast-container';
+    document.body.appendChild(container);
+  }
+
   // Create toast element
   const toast = document.createElement('div');
-  const toastId = `screenshot-toast-${Date.now()}`;
+  const toastId = `screenshot-toast-${Date.now()}-${Math.random()}`;
   toast.id = toastId;
-
-  // Define styles
-  const typeStyles: Record<string, string> = {
-    success: 'background-color: #10b981; color: white;',
-    error: 'background-color: #ef4444; color: white;',
-    info: 'background-color: #3b82f6; color: white;'
-  };
-
-  toast.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999999;
-    padding: 12px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    max-width: 300px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    word-wrap: break-word;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-    ${typeStyles[type]}
-  `;
-
+  toast.className = `screenshot-toast ${type}`;
   toast.textContent = message;
-  document.body.appendChild(toast);
 
-  // Trigger animation
-  setTimeout(() => {
-    toast.style.opacity = '1';
-  }, 10);
+  // Add to container
+  container.appendChild(toast);
 
-  // Remove after 3 seconds
-  setTimeout(() => {
-    toast.style.opacity = '0';
+  // Auto-remove after duration
+  if (duration > 0) {
     setTimeout(() => {
-      const element = document.getElementById(toastId);
-      if (element) {
-        element.remove();
-      }
-    }, 300);
-  }, 3000);
+      toast.classList.add('hide');
+      setTimeout(() => {
+        const element = document.getElementById(toastId);
+        if (element && element.parentElement) {
+          element.remove();
+        }
+      }, 300);
+    }, duration);
+  }
+
+  return toastId;
 };
 
 const bboxAnchor = document.body.appendChild(document.createElement('div'));
