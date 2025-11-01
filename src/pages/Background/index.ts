@@ -226,3 +226,102 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     sendResponse({ success: true, message: 'Batch crops cleared' });
   }
 });
+
+// Handle keyboard shortcuts/commands
+chrome.commands.onCommand.addListener((command) => {
+  switch (command) {
+    case 'start-crop-mode':
+      // Send message to active tab to activate crop mode
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id || 0, {
+            type: 'ACTIVATE_CROP_MODE',
+            message: 'Crop mode activated via hotkey'
+          }).catch((error) => {
+            console.error('Failed to activate crop mode:', error);
+          });
+        }
+      });
+      break;
+
+    case 'full-page-screenshot':
+      // Capture full page screenshot
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          chrome.tabs.captureVisibleTab((screenshotUrl) => {
+            if (!screenshotUrl) {
+              console.error('Failed to capture screenshot');
+              return;
+            }
+
+            chrome.storage.sync.get(['download', 'openInTab'], (result) => {
+              if (result.download) {
+                chrome.downloads.download({
+                  url: screenshotUrl,
+                  filename: `screenshot_fullpage_${new Date().getTime().toString()}.jpg`,
+                });
+              }
+
+              if (result.openInTab) {
+                chrome.tabs.create({
+                  url: screenshotUrl,
+                });
+              }
+            });
+
+            // Notify user
+            if (tabs[0].id) {
+              chrome.tabs.sendMessage(tabs[0].id, {
+                type: 'SHOW_NOTIFICATION',
+                message: 'Full page screenshot captured ✓',
+                notificationType: 'success'
+              }).catch(() => {
+                console.log('Content script not available for notification');
+              });
+            }
+          });
+        }
+      });
+      break;
+
+    case 'export-batch':
+      // Trigger batch export
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (batchCrops.length === 0) {
+          if (tabs[0].id) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              type: 'SHOW_NOTIFICATION',
+              message: 'No crops to export. Capture screenshots first.',
+              notificationType: 'error'
+            }).catch(() => {
+              console.log('Content script not available for notification');
+            });
+          }
+          return;
+        }
+
+        chrome.storage.sync.get(['includeMetadata'], (result) => {
+          exportMultipleScreenshots(batchCrops, {
+            includeMetadata: result.includeMetadata || true,
+            filename: `batch_export_${Date.now()}.xlsx`,
+            timestamp: Date.now()
+          });
+
+          // Clear crops after export
+          batchCrops = [];
+          chrome.storage.local.set({ batchCrops: [] });
+
+          if (tabs[0].id) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              type: 'SHOW_NOTIFICATION',
+              message: `Exported batch to Excel ✓`,
+              notificationType: 'success'
+            }).catch(() => {
+              console.log('Content script not available for notification');
+            });
+          }
+        });
+      });
+      break;
+  }
+});
