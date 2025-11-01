@@ -1,3 +1,42 @@
+/**
+ * Toast notification utility for content script
+ * Uses CSS classes for better styling and animations
+ */
+const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info', duration: number = 3000) => {
+  // Ensure container exists
+  let container = document.getElementById('screenshot-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'screenshot-toast-container';
+    document.body.appendChild(container);
+  }
+
+  // Create toast element
+  const toast = document.createElement('div');
+  const toastId = `screenshot-toast-${Date.now()}-${Math.random()}`;
+  toast.id = toastId;
+  toast.className = `screenshot-toast ${type}`;
+  toast.textContent = message;
+
+  // Add to container
+  container.appendChild(toast);
+
+  // Auto-remove after duration
+  if (duration > 0) {
+    setTimeout(() => {
+      toast.classList.add('hide');
+      setTimeout(() => {
+        const element = document.getElementById(toastId);
+        if (element && element.parentElement) {
+          element.remove();
+        }
+      }, 300);
+    }, duration);
+  }
+
+  return toastId;
+};
+
 const bboxAnchor = document.body.appendChild(document.createElement('div'));
 bboxAnchor.id = 'screenshot-bbox';
 bboxAnchor.style.zIndex = '9999999';
@@ -102,7 +141,12 @@ window.addEventListener('mouseup', (event) => {
     width: Math.abs(startingX - currX),
     height: Math.abs(startingY - currY),
   };
-  const windowSize = { width: window.innerWidth, height: window.innerHeight };
+  const windowSize = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    scrollX: window.scrollX || document.documentElement.scrollLeft,
+    scrollY: window.scrollY || document.documentElement.scrollTop
+  };
 
   resetEverything();
 
@@ -135,5 +179,14 @@ window.addEventListener('keyup', (event) => {
       document.body.classList.remove('no-select');
       // document.body.style.removeProperty('cursor');
     }
+  }
+});
+
+// Listen for messages from background script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === 'SHOW_NOTIFICATION') {
+    const { message, notificationType } = request;
+    showToast(message, notificationType || 'info');
+    sendResponse({ success: true });
   }
 });

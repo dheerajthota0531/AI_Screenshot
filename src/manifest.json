@@ -54,5 +54,28 @@
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "commands": {
+    "start-crop-mode": {
+      "suggested_key": {
+        "default": "Alt+Shift+C",
+        "mac": "Option+Shift+C"
+      },
+      "description": "Start crop mode (Alt+Drag to select area)"
+    },
+    "full-page-screenshot": {
+      "suggested_key": {
+        "default": "Alt+Shift+F",
+        "mac": "Option+Shift+F"
+      },
+      "description": "Capture full page screenshot"
+    },
+    "export-batch": {
+      "suggested_key": {
+        "default": "Alt+Shift+E",
+        "mac": "Option+Shift+E"
+      },
+      "description": "Export batch of crops to Excel"
+    }
   }
 }
